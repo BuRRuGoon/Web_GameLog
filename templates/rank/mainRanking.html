@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+    <br>
+    <h2>
+        <br><br><center>TheGameRank
+    </h2>
+    <p>
+        <center>통합 게임 랭크 사이트
+    </p>
+    {% if request.session.user %}
+    <p>
+        <center>{{ request.session.nickname }}님 환영합니다.
+    </p>
+    {% endif %}
+    <br>
+<div class="slider">
+    <input type="radio" name="slide" id="slide1" checked>
+    <input type="radio" name="slide" id="slide2">
+    <input type="radio" name="slide" id="slide3">
+    <input type="radio" name="slide" id="slide4">
+    <ul id="imgholder" class="imgs">
+        <li><a href="/board/list"><img src="/static/img/4.png"></a></li>
+        <li><a href="/rank/online"><img src="/static/img/2.png"></a></li>
+        <li><a href="/rank/mobile"><img src="/static/img/1.png"></a></li>
+        <li><a href="/rank/steam"><img src="/static/img/3.png"></a></li>
+    </ul>
+    <div class="bullets">
+        <label for="slide1">&nbsp;</label>
+        <label for="slide2">&nbsp;</label>
+        <label for="slide3">&nbsp;</label>
+        <label for="slide4">&nbsp;</label>
+    </div>
+</div>
+    <br><br>
+    <div style="width:20%; float:left; margin-top:5%; margin-left:5%;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2" class='rankTitle'>온라인게임</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for onlinedb in online %}
+                <tr>
+                    <td class='rankId'>
+                        <center><br>{{ onlinedb.id }}위
+                    </td>
+                    <td class='rankTitle'>
+                        <center><br>{{ onlinedb.title }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="width:20%; float:right; margin-top:5%; margin-right:5%;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2" class='rankTitle'>스팀</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for steamdb in steam %}
+                <tr>
+                    <td class='rankId'>
+                        <center><br>{{ steamdb.id }}위
+                    </td>
+                    <td class='rankTitle'>
+                        <center><br>{{ steamdb.title }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="width:20%; float:center; margin:5%">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2" class='rankTitle'>모바일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mobiledb in mobile %}
+                <tr>
+                    <td class='rankId'>
+                        <center><br>{{ mobiledb.id }}위
+                    </td>
+                    <td class='rankTitle'>
+                        <center><br>{{ mobiledb.title }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+ const container = document.querySelector('.img-box'),
+    slides = document.querySelectorAll('img'),
+    slidecounter = slides.length;
+let currentIndex = 0;
+
+
+var lele = 0;
+var i = 0;
+function moveleft() {
+    if (i < slidecounter - 1) {
+        lele += 100;
+        i++;
+        container.style.transition = '.3s'
+        setTimeout('moveleft()', 3000);
+    } else {
+        container.style.transition = '0s'
+        lele = 0;
+        i = 0;
+        setTimeout('moveleft()', 0);
+    }
+
+    container.style.left = "-" + lele + "%";
+    
+}
+
+moveleft();
+</script>
+{% endblock %}

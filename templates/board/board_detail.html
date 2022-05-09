@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" class="form-control" style="font-size:18;" id="title" value="{{ board.title }}" readonly /><br>
+      <label for="contents">내용</label>
+      <textarea class="form-control board-contents" id='board-contents' readonly>{{ board.contents }}</textarea>
+    </div><center>
+    <button class="btn btn-primary" onclick="location.href ='/board/list'">돌아가기</button>
+    {% if auth %}
+    <button class="btn btn-primary" onclick="location.href ='/board/update/{{board.pk}}'">수정하기</button>
+    <button class="btn btn-primary" onclick="location.href ='/board/delete/{{board.pk}}'">삭제하기</button>
+    {% else %}
+    <button class="btn btn-primary" onclick="location.href ='/board/update/{{board.pk}}'" disabled>수정하기</button>
+    <button class="btn btn-primary" onclick="location.href ='/board/delete/{{board.pk}}'" disabled>삭제하기</button>
+    {% endif %}
+  </div>
+</div>
+
+<center>
+  <!--생략-->
+  <div class="bootstrap snippets bootdey mt-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="blog-comment">
+          <h3 class="text-success">Comment</h3>
+          <hr/>
+          <ul class="comments">
+          {% if comment_count %}
+            {% for comment in comments %}
+            <li class="clearfix">
+              {% comment %} <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt=""> {% endcomment %}
+              <div class="post-comments">
+                <p class="meta">{{comment.created_at|naturaltime}} {{comment.writer.nickname}}</a> comment : </p>
+                <p style="text-align: left; display:block;">
+                  {{comment.contents}}
+                </p>
+                {% if comment_auth == comment.writer_id %}
+                  <button class="btn btn-primary" onclick="location.href ='comment_delete/{{comment.id}}'">댓글삭제</button>
+                {% else %}
+                {% endif %}
+              </div>
+            </li>
+            {% endfor %}
+            {% else %}
+              <p>댓글이 없습니다.</p>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} 댓글쓰기 {% endcomment %}
+    <form method="POST">
+      <div class="form-group" style="display: block; padding:4%;">
+        {% csrf_token %}
+        <label for="contents">Your Comment</label>
+        {% if comment_auth %}
+          <textarea name="contents" class="form-control form-comment" rows="3"></textarea>
+        {% else %}
+          <textarea name="contents" class="form-control form-comment" style="color:#aaaaaa;" rows="3" disabled>댓글 작성은 로그인이 필요합니다.</textarea>
+        {% endif %}
+        <br>
+        {% if comment_auth %}
+          <button type="submit" class="btn btn-primary">댓글쓰기</button>
+        {% else %}
+          <button class="btn btn-primary" disabled>댓글쓰기</button>
+        {% endif %}
+      </div>
+    </form>
+    </div>
+  {% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <h2>
+            <br><br><center>스팀 랭킹
+        </h2>
+        <p>
+            <center>스팀 통계</center>
+        </p>
+        <div class='reload'>
+            {% if request.session.user %}
+            <button class="btn btn-primary" onclick="location.href ='/rank/steam/reload'" id="btnfadeOut">랭킹갱신</button>
+            {% else %}
+            <button class="btn btn-primary" onclick="location.href ='/account/login'">랭킹갱신</button>
+            {% endif %}
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class='rankId'>순위</th>
+                    <th class='rankUrl'></th>
+                    <th class='rankTitle'>타이틀</th>
+                    <th>현재<br>접속자</th>
+                    <th>최고<br>접속자</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for steamdb in steam %}
+                <tr>
+                    <td class='rankId'>
+                        <center><br>{{ steamdb.id }}위
+                    </td>
+                    <td class='rankUrl'>
+                        <div style="line-height:100px;">
+                            <center><a href="https://store.steampowered.com/app/{{steamdb.steamGameKey}}" target='_blank'><img src={{steamdb.iconUrl}} id='steamUrl'
+                                    onerror="this.src='https://cdn.cloudflare.steamstatic.com/store/home/store_home_share.jpg'" 
+                                    onmouseenter="zoomIn(event)" onmouseleave="zoomOut(event)"></a>
+                        </div>
+                    </td>
+                    <td class='rankTitle'>
+                        <center><br>{{ steamdb.title }}
+                    </td>
+                    <td>
+                        <center><br>{{ steamdb.nowCurrent }}
+                    </td>
+                    <td>
+                        <center><br>{{ steamdb.fullCurrent }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="right">출처 - 스팀</p>
+    </div>
+
+<script>
+	function zoomIn(event) {
+    event.target.style.width = "24vmin";
+    event.target.style.height = "12vmin";
+    event.target.style.transition = "all 0.5s";
+  }
+
+  function zoomOut(event) {
+    event.target.style.width = "20vmin";
+    event.target.style.height = "10vmin";
+    event.target.style.transition = "all 0.5s";
+  }
+       
+    </script>
+</body>
+
+
+
+</html>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% load static %}
+
+<html lang="en">
+<head>
+  <title>TheGameRank</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" id="bootstrap-css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/nav.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/hover.css' %}" rel="stylesheet" />
+  {% comment %} <link href="{% static 'fonts/3dlet.ttf' %}" rel="stylesheet" type="text/css"> {% endcomment %}
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse" style="position: fixed; width: 100%; z-index:5">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/rank">TheGameRank</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+    <div class="topBotomBordersOut">
+      <ul class="nav navbar-nav">
+        <li><a href="/rank/online">온라인</a></li>
+        <li><a href="/rank/mobile">모바일</a></li>
+        <li><a href="/rank/steam">스팀</a></li>
+        <li><a href="/board/list">게시판</a></li>
+      </ul>
+      </div>
+            <ul class="nav navbar-nav navbar-right">
+        {% if request.session.user %}
+        <li><a>{{request.session.nickname}}님 로그인 중</a></li>
+        <li>
+          <a href="/account/logout">
+            <span class="glyphicon glyphicon-log-out"></span> 로그아웃
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="/account/login">
+            <span class="glyphicon glyphicon-log-in"></span> 로그인
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+<nav class="navbar navbar-inverse" style="position: fixed; bottom: 0; width: 100%;">
+</nav>
+</body>
+</html>

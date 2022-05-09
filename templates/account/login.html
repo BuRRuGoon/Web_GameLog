@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <div class="container text-center">
+  <br><br><br>
+    <form method="post" action="{% url 'login'%}">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <input
+          type="{{ field.field.widget.input_type }}"
+          class="form-control"
+          id="{{ field.id_for_label }}"
+          placeholder="{{ field.label }}"
+          name="{{ field.name }}"
+        />
+      </div>
+      {% if field.errors %}
+          <span style="color: red;">{{ field.errors }}</span>
+        {% endif %} 
+      {% endfor %}
+      <br>
+      <button class="btn btn-primary btn-block" id="signin">로그인</button><br>
+    </form>
+    <button class="btn btn-primary btn-block" id="signup" name="signup1" onclick="location.href = '/account/signup/'">회원가입</button>
+  </div>
+
+{% endblock %}

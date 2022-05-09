@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<body>
+<div class="row mt-5">
+  <h2><center> 게시판 </center></h2>
+  <div class="col-12"><center>
+    <table class="boardtable">
+      <thead class="thead-dark">
+        <tr style="border-bottom:2px solid black;">
+          <th scope="col">#</th>
+          <th scope="col" class='boardTitle'>제목</th>
+          <th scope="col">작성자</th>
+          <th scope="col">작성일</th>
+          <th scope="col">최종수정일</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for board in boards %}
+        <tr onclick="location.href='/board/detail/{{ board.id }}/'" style="cursor:pointer;" class="hvr-glow">
+          <td scope="row" class='boardId'>{{ board.id }}</th>
+          <td class='boardTitle'><a style="display:block; text-align: left; padding:3%; ">{{ board.title|truncatechars:40 }} [{{ board.comment_set.all|length }}]</a></td>
+          <td class='boardWriter'>{{ board.writer.nickname }}</td>
+          <td class='boardTime'>{{ board.created_at|date:"Y-m-d" }}<br>{{ board.created_at|date:"a H:i" }}</td>
+          <td class='boardTime'>{{ board.updated_at|date:"Y-m-d" }}<br>{{ board.updated_at|date:"a H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div style=" width: 30%; padding-top: 1%;">
+  <div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if boards.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?p={{ boards.previous_page_number }}"
+            >Previous</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+          <a class="page-link" href="#"
+            >{{ boards.number }} / {{ boards.paginator.num_pages }}</a
+          >
+        </li>
+        {% if boards.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?p={{ boards.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    
+  </div>
+</div>
+<div style=" width: 20%; padding: 3%;">
+    <button class="btn btn-primary" onclick = "location.href ='/board/write'">글쓰기</button>
+</div>
+  </div>
+</div>
+
+</body>
+{% endblock %}
